@@ -84,7 +84,7 @@ info.onAdd = function (map) {
 
 info.update = function (props) {
 	this._div.innerHTML = '<h4>Chronic Absenteeism</h4>' +  (props ?
-		'<b>' + props.NAME + '</b><br />' + d3.round(100 - props.school_attendance_shapefile_merge_2009_attendance) + '% of students were considered chronically absent in 2013'
+		'<b>' + props.NAME + '</b><br />' + d3.round(100 - props.school_attendance_shapefile_merge_2013_attendance) + '% of students were considered chronically absent in 2013'
 		: 'Hover over a district');
 };
 
