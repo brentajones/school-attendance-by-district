@@ -37,6 +37,7 @@ body,
 	background: rgba(255,255,255,0.8);
 	box-shadow: 0 0 15px rgba(0,0,0,0.2);
 	border-radius: 5px;
+	max-width: 500px;
 }
 .info h4 {
 	margin: 0 0 5px;
@@ -69,9 +70,9 @@ var northEast = L.latLng(44.878, -78.231),
     southWest = L.latLng(30.78, -106.122),
     bounds = L.latLngBounds(southWest, northEast);
 
-var map = L.map('map').setView([38.95941, -93.60352], 7).setMaxBounds(bounds);
+var map = L.map('map', {scrollWheelZoom: false, attribution: ''}).setView([38.494, -90.722], 9).setMaxBounds(bounds);
 
-var tiles = L.mapbox.tileLayer('brentajones.hgag33mf')
+var tiles = L.mapbox.tileLayer('stlpr.hi06d4b5')
     .addTo(map);
     
 var info = L.control();
@@ -84,7 +85,7 @@ info.onAdd = function (map) {
 
 info.update = function (props) {
 	this._div.innerHTML = '<h4>Chronic Absenteeism</h4>' +  (props ?
-		'<b>' + props.NAME + '</b><br />' + d3.round(100 - props.school_attendance_shapefile_merge_2013_attendance) + '% of students were considered chronically absent in 2013'
+		'<b>' + props.NAME + '</b><br />' + d3.round(100 - props.school_attendance_shapefile_merge_2013_attendance) + '% of students missed enough time during the 2012-13 school year to be considered chronically absent.'
 		: 'Hover over a district');
 };
 
@@ -141,7 +142,7 @@ function style(feature) {
 			layer.on({
 				mouseover: highlightFeature,
 				mouseout: resetHighlight,
-				click: zoomToFeature
+				click: highlightFeature
 			});
 		}		
 
