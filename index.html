@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<title>schools</title>	
+	<title>Chronic absenteeism in 2013</title>	
 
 	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 	
@@ -72,7 +72,7 @@ var northEast = L.latLng(44.878, -78.231),
 
 var map = L.map('map', {scrollWheelZoom: false, attribution: ''}).setView([38.494, -90.722], 9).setMaxBounds(bounds);
 
-var tiles = L.mapbox.tileLayer('stlpr.hi06d4b5')
+ var tiles = L.mapbox.tileLayer('stlpr.hi06d4b5')
     .addTo(map);
     
 var info = L.control();
@@ -85,18 +85,17 @@ info.onAdd = function (map) {
 
 info.update = function (props) {
 	this._div.innerHTML = '<h4>Chronic Absenteeism</h4>' +  (props ?
-		'<b>' + props.NAME + '</b><br />' + d3.round(100 - props.school_attendance_shapefile_merge_2013_attendance) + '% of students missed enough time during the 2012-13 school year to be considered chronically absent.'
-		: 'Hover over a district');
+		'<b>' + props.attendance_state_name + '</b><br />' + (props.attendance_y_2013 ? (d3.round(100 - props.attendance_y_2013) + '% of students missed enough time during the 2012-13 school year to be considered chronically absent.') : 'No data available for 2013.') : 'Hover over a district');
 };
 
 info.addTo(map);
     
 function getColor(d) {
-	return d > 95  ? '#1a9641' :
-	       d > 90  ? '#a6d96a' :
-	       d > 85  ? '#ffffbf' :
-	       d > 80  ? '#fdae61' :
-	       d > 0   ? '#d7191c' :
+	return d > 95  ? '#ffffb2' :
+	       d > 90  ? '#fecc5c' :
+	       d > 85  ? '#fd8d3c' :
+	       d > 80  ? '#f03b20' :
+	       d > 0   ? '#bd0026' :
 	                 '#000000';
 }
     
@@ -106,7 +105,7 @@ function style(feature) {
 		opacity: .6,
 		color: '#eee',
 		fillOpacity: 0.6,
-		fillColor: getColor(feature.properties.school_attendance_shapefile_merge_2009_attendance)
+		fillColor: getColor(feature.properties.attendance_y_2013)
 		};
 		}
 		
@@ -148,7 +147,7 @@ function style(feature) {
 
 var geojson;
 
-geojson = L.geoJson(distData, {
+geojson = L.geoJson(distdata, {
 	style: style,
 	onEachFeature: onEachFeature
 }).addTo(map);
@@ -168,7 +167,7 @@ legend.onAdd = function (map) {
 
 		labels.push(
 			'<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
-			from + (to ? '&ndash;' + to + '%' : '% or less'));
+			((from == 100) ? 'More than ' + to + '%' : to ? to + '%&ndash;' + (from - 1) + '%' : 'Less than ' + from + '%'));
 	}
 
 	div.innerHTML = labels.join('<br>');
