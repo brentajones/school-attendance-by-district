@@ -167,7 +167,7 @@ legend.onAdd = function (map) {
 
 		labels.push(
 			'<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
-			((from == 100) ? 'More than ' + to + '%' : to ? to + '%&ndash;' + (from - 1) + '%' : 'Less than ' + from + '%'));
+			((from == 100) ? to + '% or more' : to ? to + '%&ndash;' + (from - 1) + '%' : 'Less than ' + from + '%'));
 	}
 
 	div.innerHTML = labels.join('<br>');
